@@ -1,0 +1,13 @@
+{
+  "model": "claude-sonnet-5",
+  "availableModels": ["claude-sonnet-5"],
+  "permissions": {
+    "defaultMode": "auto",
+    "disableBypassPermissionsMode": "disable",
+    "deny": [
+      "Bash(git log*)",
+      "Bash(git show*)",
+      "Bash(git reflog*)"
+    ]
+  }
+}

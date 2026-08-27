@@ -1,0 +1,32 @@
+{
+  "name": "Coding Screen",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": "."
+  },
+  "remoteUser": "vscode",
+  "containerEnv": {
+    "DISABLE_AUTOUPDATER": "1"
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "anthropic.claude-code",
+        "ms-python.python"
+      ],
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash"
+      }
+    }
+  },
+  "onCreateCommand": "bash .devcontainer/on-create.sh",
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
+  "features": {
+    "ghcr.io/devcontainers/features/sshd:1": {
+      "version": "latest"
+    }
+  },
+  "hostRequirements": {
+    "cpus": 8
+  }
+}

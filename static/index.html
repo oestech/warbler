@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>slim-lite</title>
+<style>
+  body { font-family: system-ui, sans-serif; margin: 2rem auto; max-width: 60rem; color: #1a1a2e; }
+  h1 { font-size: 1.4rem; }
+  .controls { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem; }
+  select, input, button { font-size: 1rem; padding: 0.4rem 0.6rem; }
+  input#q { flex: 1; min-width: 16rem; }
+  #count { font-size: 1.3rem; font-weight: 700; margin: 1rem 0 0.5rem; }
+  #error { color: #b00020; margin: 1rem 0; white-space: pre-wrap; }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { text-align: left; padding: 0.35rem 0.6rem; border-bottom: 1px solid #ddd; }
+  th { background: #f2f2f7; }
+</style>
+</head>
+<body>
+<h1>slim-lite people search</h1>
+<div class="controls">
+  <select id="org">
+    <option value="1">Bluebonnet Action Fund</option>
+    <option value="2">Prairie Wind Collective</option>
+  </select>
+  <select id="canned">
+    <option value="">Example searches…</option>
+  </select>
+  <input id="q" type="text" placeholder="Search phrase">
+  <button id="go">Search</button>
+</div>
+<div id="count"></div>
+<div id="error"></div>
+<table id="results" hidden>
+  <thead>
+    <tr><th>First</th><th>Last</th><th>Email</th><th>City</th><th>State</th></tr>
+  </thead>
+  <tbody></tbody>
+</table>
+<script>
+const EXAMPLES = [
+  "Volunteers in Houston",
+  "Donors in Austin",
+  "Canvassers in Dallas",
+  "People in Oklahoma",
+  "People with gmail addresses",
+  "People tagged canvassr in Austin",
+  "Donors in Huston",
+  "People whose phone contains 512",
+  "Everyone Sarah added last week",
+  "Folks Maria met at the rally",
+];
+
+const cannedSel = document.getElementById("canned");
+for (const q of EXAMPLES) {
+  const opt = document.createElement("option");
+  opt.value = q;
+  opt.textContent = q;
+  cannedSel.appendChild(opt);
+}
+cannedSel.addEventListener("change", () => {
+  document.getElementById("q").value = cannedSel.value;
+});
+
+async function search() {
+  const text = document.getElementById("q").value.trim();
+  const orgId = Number(document.getElementById("org").value);
+  const countEl = document.getElementById("count");
+  const errEl = document.getElementById("error");
+  const table = document.getElementById("results");
+  const tbody = table.querySelector("tbody");
+  countEl.textContent = "";
+  errEl.textContent = "";
+  tbody.innerHTML = "";
+  table.hidden = true;
+  if (!text) return;
+  let resp;
+  try {
+    resp = await fetch("/query", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text, org_id: orgId }),
+    });
+  } catch (e) {
+    errEl.textContent = "Request failed: " + e;
+    return;
+  }
+  if (!resp.ok) {
+    errEl.textContent = "Server error (" + resp.status + "): " + (await resp.text());
+    return;
+  }
+  const data = await resp.json();
+  countEl.textContent = "Showing " + data.count + " of 200 people";
+  for (const p of data.people) {
+    const tr = document.createElement("tr");
+    for (const k of ["first_name", "last_name", "email", "city", "state"]) {
+      const td = document.createElement("td");
+      td.textContent = p[k] ?? "";
+      tr.appendChild(td);
+    }
+    tbody.appendChild(tr);
+  }
+  table.hidden = data.people.length === 0;
+}
+
+document.getElementById("go").addEventListener("click", search);
+document.getElementById("q").addEventListener("keydown", (e) => {
+  if (e.key === "Enter") search();
+});
+</script>
+</body>
+</html>
