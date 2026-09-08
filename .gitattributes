@@ -1,0 +1,6 @@
+# Keep repo-meta, CI, and interviewer-only tooling out of `git archive` output
+# (the release workflow's zip). These stay in the repo; only the exported zip
+# omits them.
+/.gitattributes export-ignore
+/.github export-ignore
+/scripts/capture-session.sh export-ignore

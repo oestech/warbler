@@ -6,7 +6,8 @@ set -euo pipefail
 
 cd "$(dirname "$0")/.."
 
-python -m pip install --user --no-warn-script-location -r requirements.txt
-python -m pytest --version >/dev/null
+python -m venv .venv
+.venv/bin/python -m pip install -r requirements.txt
+.venv/bin/python -m pytest --version >/dev/null
 
 echo "on-create: dependencies installed"

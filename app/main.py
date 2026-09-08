@@ -1,5 +1,6 @@
 from pathlib import Path
 
+from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
@@ -7,6 +8,10 @@ from pydantic import BaseModel
 from .db import get_conn
 from .filters import execute_filter
 from .llm import parse_query
+
+# The /query endpoint calls Gemini, which needs GOOGLE_API_KEY. Load a local
+# .env if one exists; a key already present in the environment takes precedence.
+load_dotenv(Path(__file__).resolve().parent.parent / ".env")
 
 app = FastAPI(title="slim-lite")
 
