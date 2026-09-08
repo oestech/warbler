@@ -1,13 +1,17 @@
 .PHONY: setup seed test run
 
+VENV := .venv
+PY := $(VENV)/bin/python
+
 setup:
-	python -m pip install --user --no-warn-script-location -r requirements.txt
+	python3 -m venv $(VENV)
+	$(PY) -m pip install -r requirements.txt
 
 seed:
-	python -m app.seed
+	$(PY) -m app.seed
 
 test:
-	python -m pytest
+	$(PY) -m pytest
 
 run:
-	python -m uvicorn app.main:app --port 8000
+	$(PY) -m uvicorn app.main:app --port 8000

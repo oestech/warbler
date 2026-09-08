@@ -31,3 +31,11 @@ ENV DEVCONTAINER=true
 USER vscode
 RUN curl -fsSL https://claude.ai/install.sh | bash -s "${CLAUDE_CODE_VERSION}"
 ENV PATH="/home/vscode/.local/bin:${PATH}"
+
+# The app's dependencies live in a virtualenv at the workspace mount path,
+# created and populated by on-create.sh (the workspace doesn't exist at image
+# build time). Putting it on PATH here makes it the default interpreter for
+# every process - interactive shells, `gh codespace ssh`, tests, and tooling -
+# so `python -m pytest` works with no activation step.
+ENV VIRTUAL_ENV="/workspaces/warbler/.venv"
+ENV PATH="/workspaces/warbler/.venv/bin:${PATH}"

@@ -16,6 +16,13 @@ make test    # run the test suite
 make run     # serve the app on http://localhost:8000
 ```
 
+For local runs, provide the Gemini key via a `.env` file (the interview
+environment sets `GOOGLE_API_KEY` for you, so you can skip this there):
+
+```
+cp .env.example .env   # then edit GOOGLE_API_KEY
+```
+
 `reset.sh` restores the repo to its starting state (discards changes, reseeds).
 
 ## Architecture
