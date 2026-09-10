@@ -4,8 +4,7 @@ A small people-search CRM. Natural-language searches are parsed into filter
 JSON by Gemini Flash Lite, executed against a SQLite database, and rendered on
 a single static page.
 
-First time here? Read [CANDIDATE-BRIEF.md](CANDIDATE-BRIEF.md), then
-[TASK.md](TASK.md).
+First time here? Read [CANDIDATE-BRIEF.md](CANDIDATE-BRIEF.md).
 
 ## Setup
 
