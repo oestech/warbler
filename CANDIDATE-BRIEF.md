@@ -15,26 +15,6 @@ claude
 How much or how little you lean on it is up to you; using it well is part of
 what this round looks at.
 
-## Permission mode
-
-Claude Code is configured in **auto mode**: an automated reviewer checks each
-action the agent wants to take before it runs. Most actions proceed without
-interrupting you; occasionally you'll be asked to approve something. This is
-identical for every candidate and can't be changed mid-session.
-
-## The environment
-
-- **Dependencies are pre-installed.** No setup needed. Run the tests any time
-  with:
-
-  ```
-  python -m pytest
-  ```
-
-- **Connect via VS Code desktop or `gh codespace ssh`** rather than the browser
-  tab — Claude Code is a terminal UI and browser terminals mangle keybindings
-  and copy-paste.
-
 ## Ground rules
 
 - You may ask the interviewer clarifying questions at any time, the same as you
