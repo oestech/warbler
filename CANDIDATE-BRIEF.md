@@ -5,8 +5,7 @@ Welcome. A few facts about this session so nothing is a surprise.
 ## This round is AI-enabled
 
 You are expected to use **Claude Code**, the agentic CLI, as part of how you
-work. It is installed and pre-authenticated — no API key, no login. To start:
-open a terminal and type:
+work. We've given you an API key. To start: open a terminal and type:
 
 ```
 claude

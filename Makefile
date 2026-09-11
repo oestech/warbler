@@ -14,4 +14,4 @@ test:
 	$(PY) -m pytest
 
 run:
-	$(PY) -m uvicorn app.main:app --port 8000
+	$(PY) -m uvicorn app.main:app --port 8000 --reload
